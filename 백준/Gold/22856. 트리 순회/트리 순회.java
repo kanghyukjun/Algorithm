@@ -88,7 +88,6 @@ public class Main {
 		if (node.value == lastIdx) {
 			// 만약 모두 방문했으면 종료
 			System.out.println(count);
-			System.exit(0);
 		}
 	}
 
