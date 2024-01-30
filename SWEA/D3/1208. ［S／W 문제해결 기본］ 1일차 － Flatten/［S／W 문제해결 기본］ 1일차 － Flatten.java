@@ -1,8 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -14,7 +14,7 @@ public class Solution {
 		for (int tc = 1; tc <= 10; tc++) {
 			// get input
 			int dumpCount = Integer.parseInt(br.readLine());
-			List<Integer> list = new LinkedList<>();
+			List<Integer> list = new ArrayList<>();
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			while (st.hasMoreTokens()) {
 				list.add(Integer.parseInt(st.nextToken()));
