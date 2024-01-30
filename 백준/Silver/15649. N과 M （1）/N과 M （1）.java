@@ -1,37 +1,51 @@
-// https://st-lab.tistory.com/114 참고
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static StringBuilder sb = new StringBuilder();
-    public static int[] arr;
-    public static boolean[] check;
+
+	static boolean[] check;
+	static int[] saved;
+	static StringBuilder sb;
+	static int N;
+	static int M;
+
 	public static void main(String[] args) throws IOException {
+		sb = new StringBuilder();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		// get input
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		arr = new int[m];
-		check = new boolean[n];
-	    dfs(n,m,0);
-	    System.out.print(sb);
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+
+		// process
+		check = new boolean[N + 1];
+		saved = new int[M];
+		solve(0);
+		
+		// output
+		System.out.println(sb);
 	}
-	public static void dfs(int n, int m, int depth) {
-	    if(depth==m){
-	        for(int val:arr){
-	            sb.append(val+" ");
-	        }
-	        sb.append("\n");
-	        return;
-	    }
-	    
-	    for(int i=0; i<n; i++){
-	        if(!check[i]){
-	            check[i] = true;
-	            arr[depth] = i+1;
-	            dfs(n,m,depth+1);
-	            check[i] = false;
-	        }
-	    }
+
+	private static void solve(int depth) {
+		if (depth == M) {
+			for (int num : saved) {
+				sb.append(num).append(' ');
+			}
+			sb.append('\n');
+			return;
+		}
+		
+		for (int i = 1; i <= N; i++) {
+			if(!check[i]) {
+				check[i] = true;
+				saved[depth] = i;
+				solve(depth + 1);
+				check[i] = false;
+			}
+		}
 	}
+
 }
