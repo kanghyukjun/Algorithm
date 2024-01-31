@@ -32,7 +32,6 @@ public class Solution {
 
 	private static int[][] BFS(int n) {
 		int[][] arr = new int[n][n];
-		boolean[][] checked = new boolean[n][n];
 
 		int row = 0;
 		int col = 0;
@@ -40,11 +39,10 @@ public class Solution {
 		int count = 1;
 
 		while (count <= n * n) {
-			checked[row][col] = true;
 			arr[row][col] = count++;
 
 			if (row + drow[idx] < 0 || row + drow[idx] >= n || col + dcol[idx] < 0 || col + dcol[idx] >= n
-					|| checked[row + drow[idx]][col + dcol[idx]]) {
+					|| arr[row + drow[idx]][col + dcol[idx]] != 0) {
 				idx = (idx + 1) % 4;
 			}
 			row += drow[idx];
