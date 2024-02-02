@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -34,9 +33,7 @@ public class Main {
 	}
 
 	private static boolean isUnion(int value1, int value2) {
-		int p1 = find(value1);
-		int p2 = find(value2);
-		if (p1 == p2) {
+		if (find(value1) == find(value2)) {
 			return true;
 		}
 		return false;
@@ -79,7 +76,6 @@ public class Main {
 			}
 		}
 
-//		System.out.println(Arrays.toString(parent));
 		boolean check = true;
 		int city1 = -1;
 		int city2 = -1;
@@ -92,7 +88,6 @@ public class Main {
 				check = false;
 				break;
 			}
-			city1 = city2;
 		}
 
 		if (check) {
