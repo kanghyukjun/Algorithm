@@ -18,8 +18,6 @@ public class Solution {
 
 			// get input
 			Integer[] arr = new Integer[8];
-			int min = Integer.MAX_VALUE;
-			int minIdx = -1;
 			st = new StringTokenizer(br.readLine());
 			for (int i = 0; i < 8; i++) {
 				arr[i] = Integer.parseInt(st.nextToken());
