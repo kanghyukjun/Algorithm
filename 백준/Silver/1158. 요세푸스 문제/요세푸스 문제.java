@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -16,23 +17,18 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken()), K = Integer.parseInt(st.nextToken());
 
 		// process
-		ArrayDeque<Integer> deque = new ArrayDeque<>();
+		ArrayList<Integer> list = new ArrayList<>();
 		for (int i = 1; i <= N; i++) {
-			deque.addLast(i);
+			list.add(i);
 		}
-
-		int count = 0;
-		while (!deque.isEmpty()) {
-			count = count % K + 1;
-			int tmp = deque.pollFirst();
-			if(count == K) {
-				sb.append(tmp).append(", ");
-			} else {
-				deque.addLast(tmp);
-			}
+		
+		for (int i = K - 1; list.size() > 1; i = (i + K) % list.size()) {
+			sb.append(list.get(i)).append(", ");
+			list.remove(i);
+			i--;
 		}
-
-		sb.delete(sb.length() - 2, sb.length()).append('>');
+		sb.append(list.get(0)).append('>');
+		
 		System.out.println(sb);
 	}
 
