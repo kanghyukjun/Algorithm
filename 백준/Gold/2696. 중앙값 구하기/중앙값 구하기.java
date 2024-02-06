@@ -30,15 +30,8 @@ public class Main {
 				int len = st.countTokens();
 				for (int j = 1; j <= len; j++) {
 					int num = Integer.parseInt(st.nextToken());
-
-					// 조건 1
-					// 항상 rightPq에 먼저 넣음
-					// 사이즈 차이가 2 이상 난다면 rightPq의 값을 leftPq에 넣기
-
-					// 조건 2
-					// leftPq의 peek 값이 항상 rightPq의 peek 값보다 작거나 같아야 함
-
 					rightPq.add(num);
+					
 					if (rightPq.size() - leftPq.size() > 1) {
 						leftPq.add(rightPq.poll());
 					} else if (rightPq.peek() < leftPq.peek()) {
