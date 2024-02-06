@@ -54,7 +54,6 @@ public class Main {
 				st = new StringTokenizer(br.readLine());
 				String f1 = st.nextToken(), f2 = st.nextToken();
 				
-				// f1과 f2가 기존에 있던 친구인지 판단
 				if (map.get(f1) == null) {
 					map.put(f1, friendCount);
 					size.add(1);
@@ -74,10 +73,6 @@ public class Main {
 				if (x != y) {
 					union(x, y);
 				}
-//				sb.append(max).append('\n');
-//				sb.append(Math.max(size.get(0), size.get(1))).append('\n');
-//				sb.append(size.get(find(0))).append('\n');
-//				sb.append(Math.max(size.get(find(0)), size.get(find(1)))).append('\n');
 				sb.append(size.get(find(x))).append('\n');
 			}
 		}
