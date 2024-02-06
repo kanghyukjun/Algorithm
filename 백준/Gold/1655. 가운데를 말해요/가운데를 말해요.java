@@ -16,25 +16,22 @@ public class Main {
 		PriorityQueue<Integer> rightPq = new PriorityQueue<>();
 		leftPq.add(-10001);
 		rightPq.add(10001);
-		
+
 		for (int i = 0; i < N; i++) {
 			int num = Integer.parseInt(br.readLine());
-			rightPq.add(num);
-			if(rightPq.size() - leftPq.size() > 1) {
+			if (i % 2 == 0) {
+				leftPq.add(num);
+			} else {
+				rightPq.add(num);
+			}
+
+			if (leftPq.peek() > rightPq.peek()) {
+				rightPq.add(leftPq.poll());
 				leftPq.add(rightPq.poll());
 			}
-			leftPq.add(rightPq.poll());
-			rightPq.add(leftPq.poll());
-			leftPq.add(rightPq.poll());
-			rightPq.add(leftPq.poll());
-			
-			if(rightPq.size() > leftPq.size()) {
-				sb.append(rightPq.peek()).append('\n');
-			} else if(rightPq.size() < leftPq.size()) {
-				sb.append(leftPq.peek()).append('\n');
-			} else {
-				sb.append(Math.min(rightPq.peek(), leftPq.peek())).append('\n');
-			}
+
+			sb.append(leftPq.peek()).append('\n');
+
 		}
 		System.out.println(sb);
 	}
