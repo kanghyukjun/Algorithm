@@ -1,107 +1,88 @@
-
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static class Node implements Comparable<Node> {
-		int vert;
-		int weight;
-		
-		public Node(int vert, int weight) {
-			this.vert = vert;
-			this.weight = weight;
+
+	static List<Edge>[] adjList;
+	static int[] minDist;
+
+	static class Edge {
+		int idx;
+		int cost;
+
+		public Edge(int idx, int cost) {
+			super();
+			this.idx = idx;
+			this.cost = cost;
 		}
-		@Override
-		public boolean equals(Object object) {
-			return this.vert == ((Node)object).vert;
-		}
-		@Override
-		public int compareTo(Node node) {
-			if(this.weight > node.weight)
-				return 1;
-			else if(this.weight < node.weight)
-				return -1;
-			return 0;
-		}
+
 	}
+
+	// Dijkstra
+	// 방향 그래프
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int V = Integer.parseInt(st.nextToken()); // 정점 갯수
-		int E = Integer.parseInt(st.nextToken()); // 간선 갯수
-		int start = Integer.parseInt(br.readLine());
-		
-		int[] distance = new int[V+1];
-		boolean[] check = new boolean[V+1];
-		check[0] = true;
-		check[start] = true;
-		
-		ArrayList<Node>[] list = new ArrayList[V+1];
-		for(int i=0; i<V+1; i++) {
-			list[i] = new ArrayList<>();
-		}
-		
-		for(int i=0; i<E; i++) {
-			st = new StringTokenizer(br.readLine());
-			int from = Integer.parseInt(st.nextToken());
-			int to = Integer.parseInt(st.nextToken());
-			int weight = Integer.parseInt(st.nextToken());
-			
-			list[from].add(new Node(to,weight));
-//			var to_list = list[from];
-//			int index = to_list.indexOf(new Node(to,0));
-//			
-//			// 최소 weight를 가진 간선만 남겨두기
-//			if(index != -1) {
-//				Node old = to_list.get(index);
-//				if(old.weight < weight)
-//					continue;
-//				else {
-//					to_list.remove(index);
-//					to_list.add(new Node(to, weight));
-//				}
-//			}
-//			else {
-//				to_list.add(new Node(to, weight));
-//			}
-		}
-		
-		distance = Dijkstra(start, list, V);
 		StringBuilder sb = new StringBuilder();
-		for(int i=1; i<distance.length; i++) {
-			if(distance[i] == Integer.MAX_VALUE)
-				sb.append("INF\n");
-			else
-				sb.append(distance[i]+"\n");
+		StringTokenizer st = null;
+
+		// get input
+		st = new StringTokenizer(br.readLine());
+
+		int V = Integer.parseInt(st.nextToken());
+		int E = Integer.parseInt(st.nextToken());
+		adjList = new ArrayList[V + 1];
+		for (int i = 1; i <= V; i++) {
+			adjList[i] = new ArrayList<>();
 		}
-		System.out.print(sb);
-	}
-	public static int[] Dijkstra(int start, ArrayList<Node>[] list, int N) {
-		PriorityQueue<Node> pq = new PriorityQueue<>();
-		int[] distance = new int[N+1];
-		Arrays.fill(distance, Integer.MAX_VALUE);
-		distance[start] = 0;
-		
-		pq.offer(new Node(start, 0));
-		while(!pq.isEmpty()) {
-			Node node = pq.poll();
-			if(node.weight > distance[node.vert]) continue;
+
+		int startIdx = Integer.parseInt(br.readLine());
+		for (int i = 0; i < E; i++) {
+			st = new StringTokenizer(br.readLine());
+			int v1 = Integer.parseInt(st.nextToken());
+			int v2 = Integer.parseInt(st.nextToken());
+			int cost = Integer.parseInt(st.nextToken());
+			adjList[v1].add(new Edge(v2, cost));
+		}
+
+		// process
+		minDist = new int[V + 1];
+		Arrays.fill(minDist, Integer.MAX_VALUE);
+
+		Queue<Edge> que = new PriorityQueue<Edge>(Comparator.comparingInt(o -> o.cost));
+		que.add(new Edge(startIdx, 0));
+		minDist[startIdx] = 0;
+		while (!que.isEmpty()) {
+			Edge currentEdge = que.poll();
+			int currentIdx = currentEdge.idx;
+			if(minDist[currentIdx] < currentEdge.cost)
+				continue;
 			
-			var to_list = list[node.vert];
-			for(int i=0; i<to_list.size(); i++) {
-				Node to = to_list.get(i);
-				if(distance[to.vert] > distance[node.vert] + to.weight) {
-					distance[to.vert] = distance[node.vert] + to.weight;
-					pq.offer(new Node(to.vert, distance[to.vert]));
+			for (int i = 0; i < adjList[currentIdx].size(); i++) {
+				Edge nextEdge = adjList[currentIdx].get(i);
+				int newCost = nextEdge.cost + minDist[currentIdx];
+				if(newCost < minDist[nextEdge.idx]) {
+					minDist[nextEdge.idx] = newCost;
+					que.add(new Edge(nextEdge.idx, newCost));
 				}
 			}
 		}
-		return distance;
+
+		// output
+		for (int i = 1; i <= V; i++) {
+			if (minDist[i] == Integer.MAX_VALUE)
+				sb.append("INF");
+			else
+				sb.append(minDist[i]);
+			sb.append('\n');
+		}
+		System.out.println(sb);
 	}
 }
