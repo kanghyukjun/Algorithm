@@ -17,13 +17,12 @@ public class Main {
 		// get input
 		st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken()), M = Integer.parseInt(st.nextToken());
-//		int[] teleport = new int[N + 1];
 		List<Integer>[] teleport = new List[N + 1];
+		int[] minTime = new int[N + 1];
 		for (int i = 0; i <= N; i++) {
 			teleport[i] = new ArrayList<>();
+			minTime[i] = Integer.MAX_VALUE;
 		}
-		int[] minTime = new int[N + 1];
-		Arrays.fill(minTime, Integer.MAX_VALUE);
 
 		st = new StringTokenizer(br.readLine());
 		int S = Integer.parseInt(st.nextToken()), E = Integer.parseInt(st.nextToken());
@@ -59,7 +58,7 @@ public class Main {
 
 			// 텔레포트
 			for (Integer tp : teleport[cur]) {
-				if(minTime[tp] > minTime[cur] + 1) {
+				if (minTime[tp] > minTime[cur] + 1) {
 					minTime[tp] = minTime[cur] + 1;
 					que.add(tp);
 				}
