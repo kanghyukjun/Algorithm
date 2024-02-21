@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 public class Solution {
 
 	static int[] parent;
-	static int[] size;
+//	static int[] size;
 
 	static int find(int x) {
 		if (parent[x] == x) {
@@ -26,13 +26,18 @@ public class Solution {
 		if (p1 == p2) {
 			return;
 		}
-
-		if (size[p1] > size[p2]) {
+//
+//		if (size[p1] > size[p2]) {
+//			parent[p2] = p1;
+//			size[p1] += size[p2];
+//		} else {
+//			parent[p1] = p2;
+//			size[p2] += size[p1];
+//		}
+		if (p1 < p2) {
 			parent[p2] = p1;
-			size[p1] += size[p2];
 		} else {
 			parent[p1] = p2;
-			size[p2] += size[p1];
 		}
 	}
 
@@ -51,10 +56,10 @@ public class Solution {
 			int m = Integer.parseInt(st.nextToken());
 
 			parent = new int[n + 1];
-			size = new int[n + 1];
+//			size = new int[n + 1];
 			for (int i = 1; i <= n; i++) {
 				parent[i] = i;
-				size[i] = 1;
+//				size[i] = 1;
 			}
 
 			// process
