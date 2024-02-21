@@ -23,7 +23,7 @@ public class Solution {
 	static void union(int x, int y) {
 		int p1 = find(x);
 		int p2 = find(y);
-		if (isUnion(p1, p2)) {
+		if (p1 == p2) {
 			return;
 		}
 
