@@ -12,30 +12,31 @@ public class Main {
 
 		// get input
 		int N = Integer.parseInt(br.readLine());
-		int[][] cost = new int[N][3];
-		int[][] costSum = new int[N][3];
-		
-		st = new StringTokenizer(br.readLine());
-		cost[0][0] = Integer.parseInt(st.nextToken());
-		cost[0][1] = Integer.parseInt(st.nextToken());
-		cost[0][2] = Integer.parseInt(st.nextToken());
-		
-		costSum[0] = Arrays.copyOf(cost[0], 3);
-		
-		// process
-		for (int i = 1; i < N; i++) {
+		int[][] map = new int[N][3];
+		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
-			cost[i][0] = Integer.parseInt(st.nextToken());
-			cost[i][1] = Integer.parseInt(st.nextToken());
-			cost[i][2] = Integer.parseInt(st.nextToken());
-			
-			costSum[i][0] = cost[i][0] + Math.min(costSum[i - 1][1], costSum[i - 1][2]);
-			costSum[i][1] = cost[i][1] + Math.min(costSum[i - 1][0], costSum[i - 1][2]);
-			costSum[i][2] = cost[i][2] + Math.min(costSum[i - 1][0], costSum[i - 1][1]);
+			for (int j = 0; j < 3; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
 		}
 
+		// process
+		int[][] mapSum = new int[N][3];
+		mapSum[0] = Arrays.copyOf(map[0], 3);
+
+		for (int i = 1; i < N; i++) {
+			mapSum[i][0] = map[i][0] + Math.min(mapSum[i - 1][1], mapSum[i - 1][2]);
+			mapSum[i][1] = map[i][1] + Math.min(mapSum[i - 1][0], mapSum[i - 1][2]);
+			mapSum[i][2] = map[i][2] + Math.min(mapSum[i - 1][0], mapSum[i - 1][1]);
+		}
+
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < 3; i++) {
+			min = Math.min(min, mapSum[N - 1][i]);
+		}
+		
 		// output
-		System.out.println(Math.min(costSum[N - 1][0], Math.min(costSum[N - 1][1], costSum[N - 1][2])));
+		System.out.println(min);
 	}
 
 }
