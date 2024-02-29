@@ -27,11 +27,10 @@ public class Main {
 		}
 
 		// process
-		for (int start = 1; start <= N; start++) {
 			isChecked = new boolean[N + 1];
-			isChecked[start] = true;
-			solve(0, 0, start, start);
-		}
+			isChecked[1] = true;
+			solve(0, 0, 1, 1);
+
 		
 		// output
 		System.out.println(min);
