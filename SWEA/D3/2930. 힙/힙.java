@@ -23,16 +23,18 @@ class Heap {
 	public void add(int value) {
 		array[insertIdx] = value;
 
-		// 부모와 값을 비교하며 맞는 위치 찾기
+		// 현재 노드와 현재 위치에서의 부모 노드
 		int currentIdx = insertIdx;
+		int parentIdx = currentIdx / 2;
 
+		// 부모와 값을 비교하며 맞는 위치 찾기
 		// 내림차순 정렬일 때 부모보다 자신의 값이 크다면 교환, 오름차순 정렬일 때 부모보다 자신의 값이 작다면 교환
-		while ((isDesc && currentIdx / 2 != 0 && array[currentIdx / 2] < array[currentIdx])
-				|| (!isDesc && currentIdx / 2 != 0 && array[currentIdx / 2] > array[currentIdx])) {
-			int tmp = array[currentIdx / 2];
-			array[currentIdx / 2] = array[currentIdx];
+		while (parentIdx != 0 && isLeftHasPriorityThanRight(array[currentIdx], array[parentIdx])) {
+			int tmp = array[parentIdx];
+			array[parentIdx] = array[currentIdx];
 			array[currentIdx] = tmp;
-			currentIdx /= 2;
+			currentIdx = parentIdx;
+			parentIdx = currentIdx / 2;
 		}
 
 		insertIdx++;
@@ -53,21 +55,19 @@ class Heap {
 		int childIdx = -1;
 		while (true) {
 
-			// 범위 확인
+			// 자식의 허용 범위 확인
 			if (currentIdx * 2 > insertIdx) {
 				break;
 			} else if (currentIdx * 2 + 1 > insertIdx) {
 				childIdx = currentIdx * 2;
 			} else {
-				if (isDesc) {
-					childIdx = array[currentIdx * 2] > array[currentIdx * 2 + 1] ? currentIdx * 2 : currentIdx * 2 + 1;
-				} else {
-					childIdx = array[currentIdx * 2] < array[currentIdx * 2 + 1] ? currentIdx * 2 : currentIdx * 2 + 1;
-				}
+				childIdx = isLeftHasPriorityThanRight(array[currentIdx * 2], array[currentIdx * 2 + 1])
+						? currentIdx * 2
+						: currentIdx * 2 + 1;
 			}
 
-			// 값 비교
-			if ((isDesc && array[currentIdx] < array[childIdx]) || (!isDesc && array[currentIdx] > array[childIdx])) {
+			if (isLeftHasPriorityThanRight(array[childIdx], array[currentIdx])) {
+				// 값 교환
 				int tmp = array[currentIdx];
 				array[currentIdx] = array[childIdx];
 				array[childIdx] = tmp;
@@ -79,6 +79,14 @@ class Heap {
 
 		// output
 		return value;
+	}
+
+	private boolean isLeftHasPriorityThanRight(int left, int right) {
+		if (isDesc) {
+			return left > right;
+		} else {
+			return left < right;
+		}
 	}
 
 	public boolean isEmpty() {
@@ -96,35 +104,33 @@ public class Solution {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = null;
 		StringBuilder sb = new StringBuilder();
-		
+
 		int T = Integer.parseInt(br.readLine());
 		for (int TC = 1; TC <= T; TC++) {
 			sb.append('#').append(TC).append(' ');
-			
+
 			// get input
 			int N = Integer.parseInt(br.readLine());
 			Heap heap = new Heap(N, true);
-			
+
 			for (int i = 0; i < N; i++) {
 				st = new StringTokenizer(br.readLine());
 				int order = Integer.parseInt(st.nextToken());
-				if(order == 1) {
+				if (order == 1) {
 					heap.add(Integer.parseInt(st.nextToken()));
-				}
-				else if(order == 2) {
-					if(heap.isEmpty()) {
+				} else if (order == 2) {
+					if (heap.isEmpty()) {
 						sb.append(-1).append(' ');
-					}
-					else {
+					} else {
 						sb.append(heap.poll()).append(' ');
 					}
 				}
 			}
-			
+
 			sb.append('\n');
 		}
-		
+
 		System.out.println(sb);
 	}
-	
+
 }
