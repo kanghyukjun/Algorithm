@@ -5,38 +5,40 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	final static int WEIGHT = 0;
-	final static int VALUE = 1;
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = null;
 
+		final int W = 0;
+		final int V = 1;
+
 		// get input
 		st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
-		int maxWeight = Integer.parseInt(st.nextToken());
+		int K = Integer.parseInt(st.nextToken());
 		int[][] stuff = new int[N + 1][2];
-		int[][] dp = new int[N + 1][maxWeight + 1];
+
+		for (int i = 1; i <= N; i++) {
+			st = new StringTokenizer(br.readLine());
+			stuff[i][W] = Integer.parseInt(st.nextToken());
+			stuff[i][V] = Integer.parseInt(st.nextToken());
+		}
 
 		// process
-		for (int curStuff = 1; curStuff <= N; curStuff++) {
-			st = new StringTokenizer(br.readLine());
-			stuff[curStuff][WEIGHT] = Integer.parseInt(st.nextToken());
-			stuff[curStuff][VALUE] = Integer.parseInt(st.nextToken());
-
-			for (int curWeight = 1; curWeight <= maxWeight; curWeight++) {
-				if (curWeight < stuff[curStuff][WEIGHT]) {
-					dp[curStuff][curWeight] = dp[curStuff - 1][curWeight];
-				} else {
-					dp[curStuff][curWeight] = Math.max(dp[curStuff - 1][curWeight],
-							dp[curStuff - 1][curWeight - stuff[curStuff][WEIGHT]] + stuff[curStuff][VALUE]);
+		int[][] dp = new int[N + 1][K + 1];
+		for (int stuffNum = 1; stuffNum <= N; stuffNum++) {
+			for (int weight = 1; weight <= K; weight++) {
+				if (stuff[stuffNum][W] > weight)
+					dp[stuffNum][weight] = dp[stuffNum - 1][weight];
+				else {
+					dp[stuffNum][weight] = Math.max(dp[stuffNum - 1][weight],
+							dp[stuffNum - 1][weight - stuff[stuffNum][W]] + stuff[stuffNum][V]);
 				}
 			}
 		}
-		
+
 		// output
-		System.out.println(dp[N][maxWeight]);
+		System.out.println(dp[N][K]);
 	}
 
 }
