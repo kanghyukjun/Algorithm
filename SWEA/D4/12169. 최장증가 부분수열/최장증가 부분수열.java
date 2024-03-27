@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -26,19 +27,46 @@ public class Solution {
 			// 본인을 포함하는 최장 길이가 idx인 가장 작은 수
 			arr[0] = Integer.MIN_VALUE;
 			int[] dp = new int[length + 1];
-			dp[0] = 0;
-			int max = 0;
+			Arrays.fill(dp, Integer.MAX_VALUE);
+			dp[0] = Integer.MIN_VALUE;
+			int back = 0;
 			for (int i = 1; i <= length; i++) {
-				for (int j = i; j >= 0; j--) {
-					if (arr[j] < arr[i]) {
-						dp[i] = Math.max(dp[i], dp[j] + 1);
+				int left = 0;
+				int right = i; // 본인의 위치가 i일 때 최장길이가 i보다 클 수 없으므로
+				int find = -1;
+
+				// 이분탐색
+				// L이상, R이하인 범위를 찾는다
+				// 0 1 3 5 7
+				// mid값은 1 3 5 7에서 6이 들어갈 범위를 찾는다
+				// 찾은 값이 6보다 큰 값 중 가장 작아야 함
+				// 이전 값은 6보다 작은 값중 가장 커야함
+				while (left <= right) {
+					int mid = (left + right) / 2;
+
+					if (dp[mid] < arr[i]) {
+						left = mid + 1;
+					} else if (dp[mid] >= arr[i]) {
+						find = mid;
+						right = mid - 1;
 					}
 				}
-				max = Math.max(max, dp[i]);
+				if (find == -1) {
+					dp[++back] = arr[i];
+				}
+				else {
+					dp[find] = arr[i];
+				}
+
 			}
 
 			// output
-			sb.append(max).append('\n');
+			for(int i=length; i>=1; i--) {
+				if(dp[i] != Integer.MAX_VALUE) {
+					sb.append(i).append('\n');
+					break;
+				}
+			}
 		}
 		System.out.println(sb);
 	}
