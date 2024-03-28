@@ -81,7 +81,6 @@ public class Main {
 		que.add(new State(start[0], start[1], 0, 0));
 		while (!que.isEmpty()) {
 			State current = que.poll();
-//			System.out.println(current);
 
 			for (int dir = 0; dir < 4; dir++) {
 				int nrow = current.row + drow[dir];
@@ -115,45 +114,6 @@ public class Main {
 		}
 
 	}
-
-//	private static void solve(int row, int col, int move, int[] end) {
-//		if(move > min) {
-//			return;
-//		}
-//		else if (end[0] == row && end[1] == col) {
-//			min = Math.min(min, move);
-//		}
-//		else {
-//			for (int dir = 0; dir < 4; dir++) {
-//				int nrow = row + drow[dir];
-//				int ncol = col + dcol[dir];
-//
-//				// 범위를 벗어나거나, 벽이라면 이동할 수 없다
-//				if (nrow < 0 || nrow >= map.length || ncol < 0 || ncol >= map[0].length || map[nrow][ncol] == '#')
-//					continue;
-//
-//				// 다음에 올 위치를 방문하지 않았고
-//				// 다음 위치가 문이 아니거나
-//				// 문이 아니더라도 키가 있다면 들어올 수 있다
-//				if ((visited[nrow][ncol] == -1 || visited[nrow][ncol] != keys)
-//						&& (!isDoor(map[nrow][ncol]) || isDoor(map[nrow][ncol]) && hasKey(map[nrow][ncol]))) {
-//					int tmpKey = visited[nrow][ncol];
-//					visited[nrow][ncol] = keys;
-//
-//					// 현재 위치가 키라면 키를 집는다
-//					if (isKey(map[nrow][ncol])) {
-//						addKey(map[nrow][ncol]);
-//						solve(nrow, ncol, move + 1, end);
-//						removeKey(map[nrow][ncol]);
-//					} else {
-//						solve(nrow, ncol, move + 1, end);
-//					}
-//					visited[nrow][ncol] = tmpKey;
-//				}
-//			}
-//
-//		}
-//	}
 
 	private static boolean isKey(char c) {
 		return 'a' <= c && c <= 'f';
