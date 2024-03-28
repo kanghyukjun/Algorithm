@@ -2,8 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -80,29 +78,6 @@ public class Main {
 				}
 
 			}
-
-//			for (int i = 0; i < R; i++) {
-//				for (int j = 0; j < C; j++) {
-//					if(map[i][j] != '*')
-//						continue;
-//					
-//					// 범위 체크
-//					if (i < 0 || i >= R || j < 0 || j >= C)
-//						continue;
-//					// 현재 범위가 돌이거나 물일 경우
-//					if (map[i][j] == '*' || map[i][j] == 'X' || map[i][j] == 'D')
-//						continue;
-//
-//					map[i][j] = '*';
-//				}
-//			}
-//
-//			for (int i = 0; i < R; i++) {
-//				for (int j = 0; j < C; j++) {
-//					System.out.print(map[i][j]+" ");
-//				}
-//				System.out.println();
-//			}
 
 			// 고슴도치의 크기만큼 빼고 이동한다
 			int size = goseum.size();
