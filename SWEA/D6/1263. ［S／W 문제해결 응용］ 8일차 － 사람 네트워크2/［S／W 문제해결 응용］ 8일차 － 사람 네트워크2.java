@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 public class Solution {
 	
-	static final int INF = 9999999;
+	static final int INF = 100000;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,7 +30,10 @@ public class Solution {
 			
 			// process
 			for (int node = 0; node < adjMatrix.length; node++) {
-				for (int row = 0; row < adjMatrix.length; row++) {		
+				for (int row = 0; row < adjMatrix.length; row++) {
+					if(row == node || adjMatrix[row][node] == INF)
+						continue;
+					
 					for (int col = 0; col < adjMatrix.length; col++) {
 						if(adjMatrix[node][col] != INF) {
 							adjMatrix[row][col] = Math.min(adjMatrix[row][col], adjMatrix[row][node] + adjMatrix[node][col]);
