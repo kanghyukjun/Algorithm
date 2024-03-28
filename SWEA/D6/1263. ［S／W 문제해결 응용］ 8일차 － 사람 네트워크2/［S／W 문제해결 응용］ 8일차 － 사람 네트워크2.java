@@ -30,10 +30,7 @@ public class Solution {
 			
 			// process
 			for (int node = 0; node < adjMatrix.length; node++) {
-				for (int row = 0; row < adjMatrix.length; row++) {
-					if(row == node || adjMatrix[row][node] == INF)
-						continue;
-					
+				for (int row = 0; row < adjMatrix.length; row++) {		
 					for (int col = 0; col < adjMatrix.length; col++) {
 						if(adjMatrix[node][col] != INF) {
 							adjMatrix[row][col] = Math.min(adjMatrix[row][col], adjMatrix[row][node] + adjMatrix[node][col]);
