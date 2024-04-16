@@ -43,19 +43,17 @@ public class Main {
 		// process
 		int count = 0;
 		TreeSet<String> set = new TreeSet<>();
-		for (int i = 0; i < m; i++) {
+		Loop: for (int i = 0; i < m; i++) {
 			String line = br.readLine();
 			Node head = root;
-			boolean check = true;
 			for (int j = 0; j < line.length(); j++) {
 				char c = line.charAt(j);
 				if (head.childs[c - 'a'] == null) {
-					check = false;
-					break;
+					continue Loop;
 				}
 				head = head.childs[c - 'a'];
 			}
-			if (head.isWord && check) {
+			if (head.isWord) {
 				count++;
 				set.add(line);
 			}
