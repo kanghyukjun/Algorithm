@@ -6,69 +6,64 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-	
-//	public static final int MAX = 50;
-	
-	public static class Node {
-		int value;
-		List<Integer> child; // 자손 노드를 index로 저장
-		
-		public Node(int value) {
-			this.value = value;
-			child = new ArrayList<>();
+
+	static class Node {
+		List<Node> childs;
+
+		public Node() {
+			super();
+			childs = new ArrayList<>();
 		}
+
+		public boolean isLeaf() {
+			return childs.size() == 0;
+		}
+
 	}
+
+	static int count = 0;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = null;
 
 		// get input
 		int N = Integer.parseInt(br.readLine());
-		list = new Node[N];
-		for (int i = 0; i < list.length; i++) {
-			list[i] = new Node(i);
-		}
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int rootIdx = -1;
-		for (int i = 0; i < list.length; i++) {
-			int parent = Integer.parseInt(st.nextToken());
-			if(parent == -1) {
-				rootIdx = i;
-				continue;
-			}
-			list[parent].child.add(i);
-		}
-		
-		int delete = Integer.parseInt(br.readLine());
-		
-		for (int i = 0; i < list.length; i++) {
-			list[i].child.remove(Integer.valueOf(delete));
-		}
-		
+		st = new StringTokenizer(br.readLine());
+		int deleted = Integer.parseInt(br.readLine());
+
 		// process
-		check = new boolean[N];
-		check[delete] = true;
-		dfs(rootIdx);
-		
+		Node[] nodes = new Node[N];
+		for (int i = 0; i < N; i++) {
+			nodes[i] = new Node();
+		}
+
+		Node root = null;
+		for (int i = 0; i < N; i++) {
+			int parent = Integer.parseInt(st.nextToken());
+			if (i == deleted || parent == deleted)
+				continue;
+
+			if (parent == -1) {
+				root = nodes[i];
+			} else {
+				nodes[parent].childs.add(nodes[i]);
+			}
+		}
+		find(root);
+
+		// output
 		System.out.println(count);
 	}
 
-	public static boolean[] check;
-	public static int count = 0;
-	public static Node[] list;
-	
-	private static void dfs(int idx) {
-		if(check[idx]) {
-			return;
-		}
-		check[idx] = true;
-		
-		if(list[idx].child.size()==0) {
-			count++;
-		}else {
-			for (int i = 0; i < list[idx].child.size(); i++) {
-				dfs(list[idx].child.get(i));
+	private static void find(Node node) {
+		if (node != null) {
+			if (node.isLeaf())
+				count++;
+			else {
+				for (Node child : node.childs) {
+					find(child);
+				}
 			}
 		}
 	}
