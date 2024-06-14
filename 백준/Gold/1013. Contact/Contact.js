@@ -9,7 +9,6 @@ const main = () => {
     const isOkay = solve(line);
     output.push(isOkay ? "YES" : "NO");
   }
-  lines.forEach((line) => {});
 
   // output
   console.log(output.join("\n"));
@@ -21,6 +20,7 @@ const solve = (line) => {
   while (last < line.length) {
     if (line[start] === "1") {
       last++;
+
       let zeroCount = 0;
       while (last < line.length && line[last] === "0") {
         last++;
@@ -33,11 +33,12 @@ const solve = (line) => {
         last++;
         oneCount++;
       }
-      if (oneCount < 0) return false;
+
+      if (oneCount <= 0) return false;
       if (last === line.length) return true;
 
       if (oneCount === 1) start = last;
-      if (oneCount > 1) {
+      else {
         if (line.length > last + 1 && line[last + 1] == "1") {
           last += 2;
           start = last;
@@ -46,9 +47,7 @@ const solve = (line) => {
           start = last;
         }
       }
-    }
-    // 01 패턴일 때
-    else if (line[start] === "0") {
+    } else {
       last++;
       if (line[last] === "1") {
         last++;
