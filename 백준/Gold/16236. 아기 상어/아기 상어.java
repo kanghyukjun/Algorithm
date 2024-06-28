@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -34,7 +33,6 @@ public class Main {
 		int sharkAte = 0;
 		int time = 0;
 		while (true) {
-//			System.out.println(sharkPoint[0] + ", " + sharkPoint[1]);
 			// BFS로 가장 가까우면서 먹을 수 있는 물고기가 있는지 확인
 			Queue<int[]> que = new ArrayDeque<>();
 			que.add(new int[] { sharkPoint[0], sharkPoint[1], 0 });
@@ -50,8 +48,12 @@ public class Main {
 					return e1[0] - e2[0];
 				return e1[1] - e2[1];
 			});
+			int threshold = -1;
 			while (!que.isEmpty()) {
 				int[] current = que.poll();
+				if (threshold != -1 && threshold <= current[2])
+					break;
+
 				for (int dir = 0; dir < 4; dir++) {
 					int nRow = current[0] + drow[dir];
 					int nCol = current[1] + dcol[dir];
@@ -61,9 +63,7 @@ public class Main {
 						isChecked[nRow][nCol] = true;
 						if (map[nRow][nCol] != 0 && map[nRow][nCol] < sharkSize) {
 							// 먹을 수 있음
-							find = new int[] { nRow, nCol, current[2] + 1 };
-//							que.clear();
-//							break;
+							threshold = current[2] + 1;
 							pq.add(new int[] { nRow, nCol, current[2] + 1 });
 						} else {
 							que.add(new int[] { nRow, nCol, current[2] + 1 });
@@ -73,12 +73,11 @@ public class Main {
 			}
 
 			// 없으면 종료
-			if (find == null)
+			if (threshold == -1)
 				break;
 
 			// 있으면 해당 칸으로 가서 물고기를 먹음
 			map[sharkPoint[0]][sharkPoint[1]] = 0;
-//			sharkPoint = find;
 			sharkPoint = pq.poll();
 			map[sharkPoint[0]][sharkPoint[1]] = 9;
 
@@ -101,15 +100,6 @@ public class Main {
 
 	public static boolean isValid(int row, int col, int[][] map) {
 		return 0 <= row && row < map.length && 0 <= col && col < map[0].length;
-	}
-
-	public static void printArr(int[][] map) {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map.length; j++) {
-				System.out.print(map[i][j] + " ");
-			}
-			System.out.println();
-		}
 	}
 
 }
