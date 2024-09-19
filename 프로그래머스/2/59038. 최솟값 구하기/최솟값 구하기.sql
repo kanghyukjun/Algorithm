@@ -1,0 +1,11 @@
+-- 코드를 입력하세요
+# SELECT 가장 먼저 동물 보호소에 들어온 동물
+
+SELECT DATETIME
+FROM ANIMAL_INS
+WHERE ANIMAL_ID = (
+    SELECT ANIMAL_ID
+    FROM ANIMAL_INS
+    ORDER BY DATETIME
+    LIMIT 1
+)
